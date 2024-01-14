@@ -110,7 +110,7 @@ int	ft_isdigit(int c)
 	return (0);
 }
 
-int check_input(int argc, char **argv)
+void check_input(int argc, char **argv)
 {
 	size_t i;
 	size_t	j;
@@ -129,13 +129,77 @@ int check_input(int argc, char **argv)
 		}
 		i++;
 	}
-	return (1);
 }
+
+void fill_stack_a(t_stacks *stacks, int argc, char **argv)
+{
+	size_t i;
+
+	i = 1;
+	while (i < argc)
+	{
+		stacks->a->stack[i - 1] = ft_atoi(argv[i]);
+		i++;
+	}
+}
+
+t_stacks *init_stacks(int argc, char **argv)
+{
+	int			*a;
+	int			*b;
+	t_stacks	*stacks;
+
+	a = malloc(sizeof(int) * (argc - 1));
+	b = malloc(sizeof(int) * (argc - 1));
+	stacks = malloc(sizeof(t_stacks));
+	stacks->a = malloc(sizeof(t_stack));
+	stacks->b = malloc(sizeof(t_stack));
+	stacks->a->stack = a;
+	stacks->b->stack = b;
+	stacks->a->size = argc - 1;
+	stacks->b->size = 0;
+	return (stacks);
+}
+
+void free_stacks(t_stacks *stacks)
+{
+	free(stacks->a->stack);
+	free(stacks->b->stack);
+	free(stacks->a);
+	free(stacks->b);
+	free(stacks);
+}
+
+void print_stacks(t_stacks *stacks)
+{
+	size_t i;
+
+	i = 0;
+	printf("stack a:\n");
+	while (i < stacks->a->size)
+	{
+		printf("%d\n", stacks->a->stack[i]);
+		i++;
+	}
+	i = 0;
+	printf("stack b:\n");
+	while (i < stacks->b->size)
+	{
+		printf("%d\n", stacks->b->stack[i]);
+		i++;
+	}
+}
+
 int main(int argc, char **argv)
 {
+	t_stacks	*stacks;
+
 	if (argc < 2)
 		exit_error();
-	printf("is valid %d", check_input(argc, argv));
-	
+	check_input(argc, argv);
+	stacks = init_stacks(argc, argv);
+	fill_stack_a(stacks, argc, argv);
+	print_stacks(stacks);
+	free_stacks(stacks);
 	return (0);
 }
