@@ -12,12 +12,13 @@
 
 #ifndef MAIN_H
 # define MAIN_H
-
+# include <stdlib.h>
 typedef struct s_stack
 {
 	int				*stack;
-	int				size;
-}					t_stack;
+	size_t			end;
+	size_t			start;
+}	t_stack;
 
 typedef struct s_stacks
 {
