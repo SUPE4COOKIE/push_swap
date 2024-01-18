@@ -274,7 +274,6 @@ int main(int argc, char **argv)
 	//rb(stacks->b);
 	//pb(stacks->a, stacks->b);
 	//printf("%d", get_n_bit(5, 0));
-	print_stacks(stacks);
 	free_stacks(stacks);
 	return (0);
 }
