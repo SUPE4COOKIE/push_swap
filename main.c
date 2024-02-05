@@ -15,15 +15,15 @@
 #include <unistd.h>
 #include "main.h"
 
-void sa(int *a, size_t size)
+void sa(t_stack *a)
 {
 	int tmp;
 
-	if (size < 2)
+	if ((a->end - a->start) < 2)
 		return ;
-	tmp = a[0];
-	a[0] = a[1];
-	a[1] = tmp;
+	tmp = a->stack[a->start];
+	a->stack[a->start] = a->stack[a->start + 1];
+	a->stack[a->start + 1] = tmp;
 	printf("sa\n");
 }
 
@@ -50,7 +50,7 @@ void rra(t_stack *a)
 
 	if ((a->end - a->start) < 2)
 		return ;
-	i = (a->end - a->start) - 1;
+	i = a->end - 1;
 	tmp = a->stack[i];
 	while (i > a->start)
 	{
@@ -114,7 +114,7 @@ int	get_min_index(t_stack *s)
 		}
 		i--;
 	}
-	return (min_index + s->start);
+	return (min_index);
 }
 
 int is_sorted(t_stack *a)
@@ -136,24 +136,26 @@ void three_sort(t_stack *s)
 {
 	int *a;
 	size_t size;
+	int i;
 
 	a = s->stack;
-	size = s->end - s->start;
-	if (a[0] > a[1] && a[1] < a[2] && a[0] < a[2])
-		sa(a, size);
-	else if (a[0] > a[1] && a[1] > a[2] && a[0] > a[2])
+	i = s->start;
+	size = s->end - i;
+	if (a[i] > a[1 + i] && a[1 + i] < a[2 + i] && a[i] < a[2 + i])
+		sa(s);
+	else if (a[i] > a[1 + i] && a[1 + i] > a[2 + i] && a[i] > a[2 + i])
 	{
-		sa(a, size);
+		sa(s);
 		rra(s);
 	}
-	else if (a[0] > a[1] && a[1] < a[2] && a[0] > a[2])
+	else if (a[i] > a[1 + i] && a[1 + i] < a[2 + i] && a[i] > a[2 + i])
 		ra(s);
-	else if (a[0] < a[1] && a[1] > a[2] && a[0] < a[2])
+	else if (a[i] < a[1 + i] && a[1 + i] > a[2 + i] && a[i] < a[2 + i])
 	{
-		sa(a, size);
+		sa(s);
 		ra(s);
 	}
-	else
+	else if (a[i] < a[1 + i] && a[1 + i] > a[2 + i] && a[i] > a[2 + i])
 		rra(s);
 }
 
@@ -303,14 +305,49 @@ void	push_min_b(t_stacks *stacks)
 	pb(stacks->a, stacks->b);
 }
 
-void sort_5(t_stacks *stacks)
+void small_sort(t_stacks *stacks)
 {
-	push_min_b(stacks);
-	push_min_b(stacks);
-	three_sort(stacks->a);
-	print_stacks(stacks);
-	pa(stacks->a, stacks->b);
-	pa(stacks->a, stacks->b);
+	int size;
+
+	size = stacks->a->end - stacks->a->start;
+	if (size == 2)
+		sa(stacks->a);
+	else if (size == 3)
+		three_sort(stacks->a);
+	else if (size == 4)
+	{
+		push_min_b(stacks);
+		three_sort(stacks->a);
+		pa(stacks->a, stacks->b);
+	}
+	else if (size == 5)
+	{
+		push_min_b(stacks);
+		push_min_b(stacks);
+		three_sort(stacks->a);
+		pa(stacks->a, stacks->b);
+		pa(stacks->a, stacks->b);
+	}
+}
+
+void index_values(t_stack *a)
+{
+	int i;
+	int	j;
+	int min_index;
+
+	i = 0;
+	min_index = a->start;
+	while (i++ < a->end)
+	{
+		j = 0;
+		while (j++ < a->end)
+		{
+			if (a->stack[min_index] > a->stack[j])
+				min_index = j;
+		}
+		a->stack[min_index] = i;
+	}
 }
 
 int main(int argc, char **argv)
@@ -319,14 +356,16 @@ int main(int argc, char **argv)
 
 	if (argc < 2)
 		exit_error();
-	check_input(argc, argv);
+	check_input(argc, argv); // add check for duplicates
 	stacks = init_stacks(argc, argv);
 	fill_stack_a(stacks, argc, argv);
-	sort_5(stacks);
-	//radix_sort(stacks->a, stacks->b, stacks);
-	//rb(stacks->b);
-	//pb(stacks->a, stacks->b);
-	//printf("%d", get_n_bit(5, 0));
+	//if (is_sorted(stacks->a))
+	//	return (0);
+	//if (stacks->a->end - stacks->a->start <= 5)
+	//	small_sort(stacks);
+	//else
+	//	radix_sort(stacks->a, stacks->b, stacks);
+	index_values(stacks->a);
 	print_stacks(stacks);
 	free_stacks(stacks);
 	return (0);
