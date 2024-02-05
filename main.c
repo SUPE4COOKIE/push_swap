@@ -275,14 +275,10 @@ void	radix_sort(t_stack *a, t_stack *b, t_stacks *stacks)
 				i = a->start;
 			}
 			else
-			{
 				ra(stacks->a);
-			}
 		}
 		while (b->start < b->end)
-		{
 			pa(a, b);
-		}
 		nbit++;
 	}
 }
@@ -330,24 +326,63 @@ void small_sort(t_stacks *stacks)
 	}
 }
 
+int is_indexed(int *indexed, int val, int i)
+{
+	int j;
+
+	j = 0;
+	while (j < i)
+	{
+		if (indexed[j] == val)
+			return (1);
+		j++;
+	}
+	return (0);
+}
+
 void index_values(t_stack *a)
 {
-	int i;
-	int	j;
-	int min_index;
+	size_t	i;
+	size_t	j;
+	size_t	min_index;
+	int	*final_list;
+	int	*indexed;
 
-	i = 0;
-	min_index = a->start;
-	while (i++ < a->end)
+	final_list = malloc(sizeof(int) * (a->end - a->start));
+    indexed = malloc(sizeof(int) * (a->end - a->start));
+    if (!final_list || !indexed)
+        exit_error();
+    i = 0;
+    min_index = a->start;
+    while (i < a->end)
 	{
-		j = 0;
-		while (j++ < a->end)
+        j = 0;
+        while (j < a->end)
 		{
-			if (a->stack[min_index] > a->stack[j])
-				min_index = j;
-		}
-		a->stack[min_index] = i;
-	}
+            if (a->stack[min_index] > a->stack[j] && !is_indexed(indexed, a->stack[j], i))
+                min_index = j;
+            j++;
+        }
+        final_list[min_index] = i;
+        indexed[i] = a->stack[min_index];
+        j = 0;
+        while (j < a->end)
+		{
+            if (!is_indexed(indexed, a->stack[j], i + 1))
+			{
+                min_index = j;
+                break;
+            }
+            j++;
+        }
+        i++;
+    }
+    i = 0;
+    while (i < a->end)
+	{
+        printf("%d\n", final_list[i]);
+        i++;
+    }
 }
 
 int main(int argc, char **argv)
