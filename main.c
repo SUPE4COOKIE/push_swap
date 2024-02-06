@@ -135,12 +135,10 @@ int is_sorted(t_stack *a)
 void three_sort(t_stack *s)
 {
 	int *a;
-	size_t size;
 	int i;
 
 	a = s->stack;
 	i = s->start;
-	size = s->end - i;
 	if (a[i] > a[1 + i] && a[1 + i] < a[2 + i] && a[i] < a[2 + i])
 		sa(s);
 	else if (a[i] > a[1 + i] && a[1 + i] > a[2 + i] && a[i] > a[2 + i])
@@ -159,8 +157,10 @@ void three_sort(t_stack *s)
 		rra(s);
 }
 
-void exit_error(void)
+void exit_error(t_stacks *stacks)
 {
+	if (stacks)
+		free_stacks(stacks);
 	write(2, "Error\n", 6);
 	exit(0);
 }
@@ -172,40 +172,35 @@ int	ft_isdigit(int c)
 	return (0);
 }
 
-void check_input(int argc, char **argv)
+int is_in(int *arr, int len, int val)
 {
-	size_t i;
-	size_t	j;
+	int i;
 
-	i = 1;
-	while (i < argc)
+	i = 0;
+	while (i < len)
 	{
-		j = 0;
-		if (ft_atoi(argv[i]) == -1)
-			exit_error();
-		while (argv[i][j])
-		{
-			if (argv[i][j] > '9' || argv[i][j] < '0')
-				exit_error();
-			j++;
-		}
+		if (arr[i] == val)
+			return (1);
 		i++;
 	}
+	return (0);
 }
 
 void fill_stack_a(t_stacks *stacks, int argc, char **argv)
 {
-	size_t i;
+	int i;
 
 	i = 1;
 	while (i < argc)
 	{
-		stacks->a->stack[i - 1] = ft_atoi(argv[i]);
+		if (is_in(stacks->a->stack, i - 1, ft_atoi(argv[i], stacks)))
+			exit_error(stacks);
+		stacks->a->stack[i - 1] = ft_atoi(argv[i], stacks);
 		i++;
 	}
 }
 
-t_stacks *init_stacks(int argc, char **argv)
+t_stacks *init_stacks(int argc)
 {
 	int			*a;
 	int			*b;
@@ -263,8 +258,6 @@ void	radix_sort(t_stack *a, t_stack *b, t_stacks *stacks)
 	nbit = 0;
 	while(!is_sorted(a))
 	{
-		if (nbit > 8)
-			exit_error();
 		i = a->start;
 		op_count = a->end - i;
 		while (op_count--)
@@ -290,12 +283,12 @@ void	push_min_b(t_stacks *stacks)
 	min_index = get_min_index(stacks->a);
 	if (min_index > (int)((stacks->a->end - stacks->a->start) / 2))
 	{
-		while (min_index++ < stacks->a->end)
+		while (min_index++ < (int)stacks->a->end)
 			rra(stacks->a);
 	}
 	else
 	{
-		while (min_index-- > stacks->a->start)
+		while (min_index-- > (int)stacks->a->start)
 			ra(stacks->a);
 	}
 	pb(stacks->a, stacks->b);
@@ -340,18 +333,20 @@ int is_indexed(int *indexed, int val, int i)
 	return (0);
 }
 
-void index_values(t_stack *a)
+void index_values(t_stacks *s)
 {
 	size_t	i;
 	size_t	j;
 	size_t	min_index;
+	t_stack	*a;
 	int	*final_list;
 	int	*indexed;
 
+	a = s->a;
 	final_list = malloc(sizeof(int) * (a->end - a->start));
     indexed = malloc(sizeof(int) * (a->end - a->start));
     if (!final_list || !indexed)
-        exit_error();
+        exit_error(s);
     i = 0;
     min_index = a->start;
     while (i < a->end)
@@ -377,12 +372,12 @@ void index_values(t_stack *a)
         }
         i++;
     }
-    i = 0;
-    while (i < a->end)
+	i = 0;
+	while (i < a->end)
 	{
-        printf("%d\n", final_list[i]);
-        i++;
-    }
+		a->stack[i] = final_list[i];
+		i++;
+	}
 }
 
 int main(int argc, char **argv)
@@ -390,18 +385,16 @@ int main(int argc, char **argv)
 	t_stacks	*stacks;
 
 	if (argc < 2)
-		exit_error();
-	check_input(argc, argv); // add check for duplicates
-	stacks = init_stacks(argc, argv);
+		exit_error(NULL);
+	stacks = init_stacks(argc);
 	fill_stack_a(stacks, argc, argv);
-	//if (is_sorted(stacks->a))
-	//	return (0);
-	//if (stacks->a->end - stacks->a->start <= 5)
-	//	small_sort(stacks);
-	//else
-	//	radix_sort(stacks->a, stacks->b, stacks);
-	index_values(stacks->a);
-	print_stacks(stacks);
+	if (is_sorted(stacks->a))
+		return (0);
+	index_values(stacks);
+	if (stacks->a->end - stacks->a->start <= 5)
+		small_sort(stacks);
+	else
+		radix_sort(stacks->a, stacks->b, stacks);
 	free_stacks(stacks);
 	return (0);
 }

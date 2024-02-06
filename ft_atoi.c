@@ -35,7 +35,7 @@ static int	return_overflow(long int result, int nptr, int sign)
 	return (1);
 }
 
-int	ft_atoi(const char *nptr)
+int	ft_atoi(const char *nptr, t_stacks *stacks)
 {
 	long int	result;
 	int			sign;
@@ -54,7 +54,7 @@ int	ft_atoi(const char *nptr)
 	while (*nptr && ft_isdigit((unsigned char)*nptr))
 	{
 		if (return_overflow(result, (int)*nptr - '0', sign) != 1)
-			exit_error();
+			exit_error(stacks);
 		result = result * 10 + *nptr - '0';
 		nptr++;
 	}

@@ -27,7 +27,8 @@ typedef struct s_stacks
 }					t_stacks;
 
 int	ft_isdigit(int c);
-int	ft_atoi(const char *nptr);
-void exit_error(void);
+int	ft_atoi(const char *nptr, t_stacks *stacks);
+void exit_error(t_stacks *stacks);
+void free_stacks(t_stacks *stacks);
 
 #endif
