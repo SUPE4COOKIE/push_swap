@@ -13,6 +13,14 @@
 #include "main.h"
 #include <limits.h>
 
+static int	ft_isdigit(int c)
+{
+	if ((c >= '0' && c <= '9'))
+		return (1);
+	exit_error(NULL);
+	return (0);
+}
+
 static int	ft_isspace(char c)
 {
 	if ((c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f'
@@ -34,7 +42,6 @@ static int	return_overflow(long int result, int nptr, int sign)
 			return (-1);
 	}
 	return (1);
-
 }
 
 int	ft_atoi(const char *nptr, t_stacks *stacks)
