@@ -13,6 +13,7 @@
 #ifndef MAIN_H
 # define MAIN_H
 # include <stdlib.h>
+
 typedef struct s_stack
 {
 	int				*stack;

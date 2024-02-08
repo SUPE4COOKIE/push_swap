@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "main.h"
+#include <limits.h>
 
 static int	ft_isspace(char c)
 {
@@ -22,17 +23,18 @@ static int	ft_isspace(char c)
 
 static int	return_overflow(long int result, int nptr, int sign)
 {
-	long int	tmp;
-
-	tmp = (result * 10 + nptr);
-	if (result != ((tmp - nptr) / 10))
+	if (sign > 0)
 	{
-		if (sign < 0)
-			return (-1);
-		else
+		if (result > (INT_MAX - nptr) / 10)
 			return (0);
 	}
+	else
+	{
+		if (-result < (INT_MIN + nptr) / 10)
+			return (-1);
+	}
 	return (1);
+
 }
 
 int	ft_atoi(const char *nptr, t_stacks *stacks)
@@ -51,6 +53,8 @@ int	ft_atoi(const char *nptr, t_stacks *stacks)
 	}
 	else if (*nptr == '+')
 		nptr++;
+	if (*nptr == 0)
+		exit_error(stacks);
 	while (*nptr && ft_isdigit((unsigned char)*nptr))
 	{
 		if (return_overflow(result, (int)*nptr - '0', sign) != 1)

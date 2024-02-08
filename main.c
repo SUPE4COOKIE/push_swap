@@ -169,6 +169,7 @@ int	ft_isdigit(int c)
 {
 	if ((c >= '0' && c <= '9'))
 		return (1);
+	exit_error(NULL);
 	return (0);
 }
 
@@ -378,18 +379,20 @@ void index_values(t_stacks *s)
 		a->stack[i] = final_list[i];
 		i++;
 	}
+	free(final_list);
+	free(indexed);
 }
 
 int main(int argc, char **argv)
 {
 	t_stacks	*stacks;
 
-	if (argc < 2)
+	if (argc < 2 || !argv[1][0])
 		exit_error(NULL);
 	stacks = init_stacks(argc);
 	fill_stack_a(stacks, argc, argv);
 	if (is_sorted(stacks->a))
-		return (0);
+		return (free_stacks(stacks), 0);
 	index_values(stacks);
 	if (stacks->a->end - stacks->a->start <= 5)
 		small_sort(stacks);
