@@ -58,24 +58,20 @@ void	push_min_b(t_stacks *stacks)
 void	small_sort(t_stacks *stacks)
 {
 	int	size;
+	int	i;
 
 	size = stacks->a->end - stacks->a->start;
 	if (size == 2)
 		sa(stacks->a);
 	else if (size == 3)
 		three_sort(stacks->a);
-	else if (size == 4)
+	else
 	{
-		push_min_b(stacks);
+		i = 0;
+		while (i++ < size - 3)
+			push_min_b(stacks);
 		three_sort(stacks->a);
-		pa(stacks->a, stacks->b);
-	}
-	else if (size == 5)
-	{
-		push_min_b(stacks);
-		push_min_b(stacks);
-		three_sort(stacks->a);
-		pa(stacks->a, stacks->b);
-		pa(stacks->a, stacks->b);
+		while (stacks->b->start < stacks->b->end)
+			pa(stacks->a, stacks->b);
 	}
 }

@@ -10,9 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 #include "main.h"
 
 void	exit_error(t_stacks *stacks)
@@ -34,7 +31,7 @@ int	main(int argc, char **argv)
 	if (is_sorted(stacks->a))
 		return (free_stacks(stacks), 0);
 	index_values(stacks);
-	if (stacks->a->end - stacks->a->start <= 5)
+	if (stacks->a->end - stacks->a->start <= 30)
 		small_sort(stacks);
 	else
 		radix_sort(stacks->a, stacks->b, stacks);

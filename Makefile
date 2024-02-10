@@ -1,4 +1,4 @@
-CFLAGS = -Wall -Wextra -Werror -MMD -MP
+CFLAGS = -Wall -Wextra -Werror -MMD
 SRC = ft_atoi.c main.c moves.c radix.c small_sort.c stacks.c utils.c
 OBJ = $(SRC:.c=.o)
 NAME = push_swap
@@ -16,7 +16,6 @@ $(NAME): $(OBJ)
 
 clean:
 	rm -f $(OBJ) $(OBJDEPS)
-	$(MAKE) -C ft_printf/ clean
 
 fclean: clean
 	rm -f $(NAME)
