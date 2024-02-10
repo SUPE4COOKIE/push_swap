@@ -21,7 +21,7 @@ void	sa(t_stack *a)
 	tmp = a->stack[a->start];
 	a->stack[a->start] = a->stack[a->start + 1];
 	a->stack[a->start + 1] = tmp;
-	ft_printf("sa\n");
+	write(1, "sa\n", 1);
 }
 
 void	ra(t_stack *a)
@@ -37,7 +37,7 @@ void	ra(t_stack *a)
 		i++;
 	}
 	a->stack[i] = tmp;
-	ft_printf("ra\n");
+	write(1, "ra\n", 1);
 }
 
 void	rra(t_stack *a)
@@ -55,19 +55,19 @@ void	rra(t_stack *a)
 		i--;
 	}
 	a->stack[a->start] = tmp;
-	ft_printf("rra\n");
+	write(1, "rra\n", 1);
 }
 
 void	pb(t_stack *a, t_stack *b)
 {
 	if ((b->start > 0) && (a->start != a->end))
 		b->stack[--b->start] = a->stack[a->start++];
-	ft_printf("pb\n");
+	write(1, "pb\n", 1);
 }
 
 void	pa(t_stack *a, t_stack *b)
 {
 	if ((a->start > 0) && (b->start != b->end))
 		a->stack[--a->start] = b->stack[b->start++];
-	ft_printf("pa\n");
+	write(1, "pa\n", 1);
 }

@@ -30,7 +30,6 @@ typedef struct s_stacks
 int			ft_atoi(const char *nptr, t_stacks *stacks);
 void		exit_error(t_stacks *stacks);
 void		free_stacks(t_stacks *stacks);
-int			ft_printf(const char *s, ...);
 void		sa(t_stack *a);
 void		ra(t_stack *a);
 void		rra(t_stack *a);
@@ -50,5 +49,4 @@ void		radix_sort(t_stack *a, t_stack *b, t_stacks *stacks);
 int			is_indexed(int *indexed, int val, int i);
 void		index_values(t_stacks *s);
 void		set_next_index(t_stack *a, int *indexed, int i, int *final_list);
-void		set_next_index(t_stack *a, int *indexed, int i, int *min_index);
 #endif

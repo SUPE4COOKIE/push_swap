@@ -35,8 +35,12 @@ t_stacks	*init_stacks(int argc)
 	a = malloc(sizeof(int) * (argc - 1));
 	b = malloc(sizeof(int) * (argc - 1));
 	stacks = malloc(sizeof(t_stacks));
+	if (!a || !b || !stacks)
+		exit_error(stacks);
 	stacks->a = malloc(sizeof(t_stack));
 	stacks->b = malloc(sizeof(t_stack));
+	if (!stacks->a || !stacks->b)
+		exit_error(stacks);
 	stacks->a->stack = a;
 	stacks->b->stack = b;
 	stacks->a->end = argc - 1;
