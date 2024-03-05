@@ -13,11 +13,11 @@
 #include "main.h"
 #include <limits.h>
 
-static int	ft_isdigit(int c)
+static int	ft_isdigit(int c, t_stacks *stacks)
 {
 	if ((c >= '0' && c <= '9'))
 		return (1);
-	exit_error(NULL);
+	exit_error(stacks);
 	return (0);
 }
 
@@ -62,7 +62,7 @@ int	ft_atoi(const char *nptr, t_stacks *stacks)
 		nptr++;
 	if (*nptr == 0)
 		exit_error(stacks);
-	while (*nptr && ft_isdigit((unsigned char)*nptr))
+	while (*nptr && ft_isdigit((unsigned char)*nptr, stacks))
 	{
 		if (return_overflow(result, (int)*nptr - '0', sign) != 1)
 			exit_error(stacks);
