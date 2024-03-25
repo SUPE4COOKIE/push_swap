@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   radix.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwojtasi <mwojtasi@student.42lyon.fr >     +#+  +:+       +#+        */
+/*   By: mwojtasi <mwojtasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 04:27:09 by mwojtasi          #+#    #+#             */
-/*   Updated: 2024/02/08 04:27:09 by mwojtasi         ###   ########.fr       */
+/*   Updated: 2024/03/26 00:35:32 by mwojtasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,14 @@ void	index_values(t_stacks *s)
 	int		*indexed;
 
 	final_list = malloc(sizeof(int) * (s->a->end - s->a->start));
-	indexed = malloc(sizeof(int) * (s->a->end - s->a->start));
-	if (!final_list || !indexed)
+	if (!final_list)
 		exit_error(s);
+	indexed = malloc(sizeof(int) * (s->a->end - s->a->start));
+	if (!indexed)
+	{
+		free(final_list);
+		exit_error(s);
+	}
 	i = 0;
 	while (i < s->a->end)
 	{
@@ -93,11 +98,7 @@ void	index_values(t_stacks *s)
 		i++;
 	}
 	i = 0;
-	while (i < s->a->end)
-	{
-		s->a->stack[i] = final_list[i];
-		i++;
-	}
-	free(final_list);
+	free(s->a->stack);
+	s->a->stack = final_list;
 	free(indexed);
 }

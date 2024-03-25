@@ -17,7 +17,7 @@ void	exit_error(t_stacks *stacks)
 	if (stacks)
 		free_stacks(stacks);
 	write(2, "Error\n", 6);
-	exit(0);
+	exit(1);
 }
 
 int	main(int argc, char **argv)
