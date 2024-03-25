@@ -6,10 +6,10 @@ OBJDEPS = $(OBJ:.o=.d)
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
+$(NAME): $(OBJ) Makefile
 	cc -o $(NAME) $(OBJ)
 
-%.o: %.c
+%.o: %.c Makefile
 	cc $(CFLAGS) -o $@ -c $<
 
 -include $(OBJDEPS)
