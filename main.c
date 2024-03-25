@@ -24,7 +24,9 @@ int	main(int argc, char **argv)
 {
 	t_stacks	*stacks;
 
-	if (argc < 2 || !argv[1][0])
+	if (argc < 2)
+		return (0);
+	if (!argv[1][0])
 		exit_error(NULL);
 	stacks = init_stacks(argc);
 	fill_stack_a(stacks, argc, argv);
