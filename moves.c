@@ -6,7 +6,7 @@
 /*   By: mwojtasi <mwojtasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 04:00:26 by mwojtasi          #+#    #+#             */
-/*   Updated: 2024/03/29 22:00:45 by mwojtasi         ###   ########.fr       */
+/*   Updated: 2024/03/29 22:02:29 by mwojtasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	sa(t_stack *a)
 	tmp = a->stack[a->start];
 	a->stack[a->start] = a->stack[a->start + 1];
 	a->stack[a->start + 1] = tmp;
-	if (!write(1, "sa\n", 3))
+	if (write(1, "sa\n", 3) == -1)
 		exit_error(NULL);
 }
 
@@ -38,7 +38,7 @@ void	ra(t_stack *a)
 		i++;
 	}
 	a->stack[i] = tmp;
-	if (!write(1, "ra\n", 3))
+	if (write(1, "ra\n", 3) == -1)
 		exit_error(NULL);
 }
 
@@ -57,7 +57,7 @@ void	rra(t_stack *a)
 		i--;
 	}
 	a->stack[a->start] = tmp;
-	if (!write(1, "rra\n", 4))
+	if (write(1, "rra\n", 4) == -1)
 		exit_error(NULL);
 }
 
@@ -65,7 +65,7 @@ void	pb(t_stack *a, t_stack *b)
 {
 	if ((b->start > 0) && (a->start != a->end))
 		b->stack[--b->start] = a->stack[a->start++];
-	if (!write(1, "pb\n", 3))
+	if (write(1, "pb\n", 3) == -1)
 		exit_error(NULL);
 }
 
@@ -73,6 +73,6 @@ void	pa(t_stack *a, t_stack *b)
 {
 	if ((a->start > 0) && (b->start != b->end))
 		a->stack[--a->start] = b->stack[b->start++];
-	if (!write(1, "pa\n", 3))
+	if (write(1, "pa\n", 3) == -1)
 		exit_error(NULL);
 }
