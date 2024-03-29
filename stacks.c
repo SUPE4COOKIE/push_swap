@@ -6,7 +6,7 @@
 /*   By: mwojtasi <mwojtasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 04:23:31 by mwojtasi          #+#    #+#             */
-/*   Updated: 2024/03/29 18:44:54 by mwojtasi         ###   ########.fr       */
+/*   Updated: 2024/03/29 21:59:05 by mwojtasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ t_stacks	*init_stacks(int argc)
 		exit_error(NULL);
 	stacks->a = malloc(sizeof(t_stack));
 	stacks->b = malloc(sizeof(t_stack));
-	stacks->a->stack = NULL;
-	stacks->b->stack = NULL;
 	if (!stacks->a || !stacks->b)
 		exit_error(stacks);
 	stacks->a->stack = malloc(sizeof(int) * (argc - 1));
