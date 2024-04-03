@@ -6,30 +6,34 @@
 /*   By: mwojtasi <mwojtasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 04:00:26 by mwojtasi          #+#    #+#             */
-/*   Updated: 2024/03/29 22:02:29 by mwojtasi         ###   ########.fr       */
+/*   Updated: 2024/04/03 19:49:32 by mwojtasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-void	sa(t_stack *a)
+void	sa(t_stacks *s)
 {
 	int	tmp;
+	t_stack	*a;
 
+	a = s->a;
 	if ((a->end - a->start) < 2)
 		return ;
 	tmp = a->stack[a->start];
 	a->stack[a->start] = a->stack[a->start + 1];
 	a->stack[a->start + 1] = tmp;
 	if (write(1, "sa\n", 3) == -1)
-		exit_error(NULL);
+		exit_error(s);
 }
 
-void	ra(t_stack *a)
+void	ra(t_stacks *s)
 {
 	size_t	i;
 	int		tmp;
-
+	t_stack	*a;
+	
+	a = s->a;
 	i = a->start;
 	tmp = a->stack[i];
 	while ((i + 1) < a->end)
@@ -39,14 +43,16 @@ void	ra(t_stack *a)
 	}
 	a->stack[i] = tmp;
 	if (write(1, "ra\n", 3) == -1)
-		exit_error(NULL);
+		exit_error(s);
 }
 
-void	rra(t_stack *a)
+void	rra(t_stacks *s)
 {
 	size_t	i;
 	int		tmp;
+	t_stack	*a;
 
+	a = s->a;
 	if ((a->end - a->start) < 2)
 		return ;
 	i = a->end - 1;
@@ -58,21 +64,31 @@ void	rra(t_stack *a)
 	}
 	a->stack[a->start] = tmp;
 	if (write(1, "rra\n", 4) == -1)
-		exit_error(NULL);
+		exit_error(s);
 }
 
-void	pb(t_stack *a, t_stack *b)
+void	pb(t_stacks *s)
 {
+	t_stack	*a;
+	t_stack	*b;
+
+	a = s->a;
+	b = s->b;
 	if ((b->start > 0) && (a->start != a->end))
 		b->stack[--b->start] = a->stack[a->start++];
 	if (write(1, "pb\n", 3) == -1)
-		exit_error(NULL);
+		exit_error(s);
 }
 
-void	pa(t_stack *a, t_stack *b)
+void	pa(t_stacks *s)
 {
+	t_stack	*a;
+	t_stack	*b;
+	
+	a = s->a;
+	b = s->b;
 	if ((a->start > 0) && (b->start != b->end))
 		a->stack[--a->start] = b->stack[b->start++];
 	if (write(1, "pa\n", 3) == -1)
-		exit_error(NULL);
+		exit_error(s);
 }

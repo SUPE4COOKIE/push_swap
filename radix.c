@@ -6,7 +6,7 @@
 /*   By: mwojtasi <mwojtasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 04:27:09 by mwojtasi          #+#    #+#             */
-/*   Updated: 2024/03/26 00:35:32 by mwojtasi         ###   ########.fr       */
+/*   Updated: 2024/04/03 19:53:23 by mwojtasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ void	radix_sort(t_stack *a, t_stack *b, t_stacks *stacks)
 		{
 			if (!get_n_bit(a->stack[i], nbit))
 			{
-				pb(a, b);
+				pb(stacks);
 				i = a->start;
 			}
 			else
-				ra(stacks->a);
+				ra(stacks);
 		}
 		while (b->start < b->end)
-			pa(a, b);
+			pa(stacks);
 		nbit++;
 	}
 }

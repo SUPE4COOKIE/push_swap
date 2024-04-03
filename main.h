@@ -31,12 +31,12 @@ typedef struct s_stacks
 int			ft_atoi(const char *nptr, t_stacks *stacks);
 void		exit_error(t_stacks *stacks);
 void		free_stacks(t_stacks *stacks);
-void		sa(t_stack *a);
-void		ra(t_stack *a);
-void		rra(t_stack *a);
-void		pb(t_stack *a, t_stack *b);
-void		pa(t_stack *a, t_stack *b);
-void		three_sort(t_stack *s);
+void		sa(t_stacks *s);
+void		ra(t_stacks *s);
+void		rra(t_stacks *s);
+void		pb(t_stacks *s);
+void		pa(t_stacks *s);
+void		three_sort(t_stacks *s);
 void		push_min_b(t_stacks *stacks);
 void		small_sort(t_stacks *stacks);
 int			is_sorted(t_stack *a);
